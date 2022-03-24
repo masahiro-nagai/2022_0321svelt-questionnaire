@@ -1,14 +1,19 @@
 <script>
     import Card from "./Card.svelte";
     import Button from "./Button.svelte";
+    import RatingSelect from "./RatingSelect.svelte"
 
     let text = ''
+    let rating = 10
     let btnDisable = true
     let min = 10
     let message 
+
+    const handleSelect = (e) =>rating = e.detail
+
     const handleInput = () => {
         if(text.trim().length <= min){
-        message = `{min}文字以上入力してください`
+        message = `${min}文字以上入力してください`
         btnDisable = true
         }else {
             message = null
@@ -22,7 +27,7 @@
         <h2>アンケートをお願いします</h2>
     </header>
 <form>
-    <!-- Rating select -->
+    <RatingSelect on:raiting-select={handleSelect}/>
     <div class="input-group">
         <input type="text" on:input ={handleInput} bind:value = {text} placeholder="ご意見はこちらに入力してください">
         <Button disabled={btnDisable} type = "submit">送信</Button>
