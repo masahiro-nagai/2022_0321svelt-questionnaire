@@ -8,30 +8,30 @@
 
     let text = ''
     let rating = 10
-    let btnDisable = true
+    let btnDisabled = true
     let min = 10
     let message 
 
     const handleSelect = (e) =>rating = e.detail
 
     const handleInput = () => {
-        if(text.trim().length <= min){
-        message = `${min}文字以上入力してください`
-        btnDisable = true
-        }else {
-            message = null
-            btnDisable = false
-        }
+    if(text.trim().length <= min) {
+      message = `${min}以上入力してください`
+      btnDisabled = true
+    } else {
+      message = null
+      btnDisabled = false
     }
+  }
     const handleSubmit = () =>{
         if(text.trim().length > min){
             const newFeedBack = {
-                Id: uuidv4(),
+                id: uuidv4(),
                 text,
                 rating: +rating
             }
             FeedbackStore.update((currentFeedback) =>{
-                return [newFeedBack,...currentFeedback]
+                return [newFeedBack, ...currentFeedback]
             })
 
             text = ''
@@ -42,21 +42,21 @@
 </script>
 <Card>
     <header>
-        <h2>アンケートをお願いします</h2>
+      <h2>アンケートにご協力ください</h2>
     </header>
-<form on:submit|preventDefault={handleSubmit} >
-    <RatingSelect on:raiting-select={handleSelect}/>
+  <form on:submit|preventDefault={handleSubmit}>
+    <RatingSelect on:rating-select={handleSelect} />
     <div class="input-group">
-        <input type="text" on:input ={handleInput} bind:value = {text} placeholder="ご意見はこちらに入力してください">
-        <Button disabled={btnDisable} type = "submit">送信</Button>
+      <input type="text" on:input={handleInput} bind:value = {text} placeholder="入力して下さい">
+      <Button disabled={btnDisabled} type="submit">送信</Button>
     </div>
     {#if message}
-    <div class="message">
+      <div class="message">
         {message}
-    </div>
+      </div>
     {/if}
-</form>
-</Card>
+  </form>
+  </Card>
 
 <style>
     header {

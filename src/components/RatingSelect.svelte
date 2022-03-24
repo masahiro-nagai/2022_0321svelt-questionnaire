@@ -6,7 +6,7 @@
 
     const onChange = (e) =>{
         selected = e.currentTarget.value
-        dispatch('raiting-select',selected)
+        dispatch('rating-select',selected)
     }
 </script>
 
