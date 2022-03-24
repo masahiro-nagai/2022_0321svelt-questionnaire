@@ -1,7 +1,10 @@
 <script>
+    import { v4 as uuidv4 } from 'uuid'
+    import {FeedbackStore} from '../stores'
     import Card from "./Card.svelte";
     import Button from "./Button.svelte";
     import RatingSelect from "./RatingSelect.svelte"
+
 
     let text = ''
     let rating = 10
@@ -20,13 +23,28 @@
             btnDisable = false
         }
     }
+    const handleSubmit = () =>{
+        if(text.trim().length > min){
+            const newFeedBack = {
+                Id: uuidv4(),
+                text,
+                rating: +rating
+            }
+            FeedbackStore.update((currentFeedback) =>{
+                return [newFeedBack,...currentFeedback]
+            })
+
+            text = ''
+
+        }
+    }
 
 </script>
 <Card>
     <header>
         <h2>アンケートをお願いします</h2>
     </header>
-<form>
+<form on:submit|preventDefault={handleSubmit} >
     <RatingSelect on:raiting-select={handleSelect}/>
     <div class="input-group">
         <input type="text" on:input ={handleInput} bind:value = {text} placeholder="ご意見はこちらに入力してください">
